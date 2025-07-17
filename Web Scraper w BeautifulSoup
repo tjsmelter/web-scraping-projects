@@ -8,7 +8,6 @@ soup = BeautifulSoup(empire_web_page, "html.parser")
 
 movie_titles = soup.find_all(name="h2")
 del movie_titles[0]
-print(movie_titles)
 
 movie_list = []
 
@@ -18,7 +17,6 @@ for name in movie_titles:
 
 movie_list.reverse()
 
-print(movie_list)
 
 with open("top_100_movies.json", mode="w", encoding="utf-8") as file:
     json.dump(movie_list, file, indent=4, ensure_ascii=False)
