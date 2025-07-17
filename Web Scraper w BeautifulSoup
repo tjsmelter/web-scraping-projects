@@ -2,21 +2,26 @@ from bs4 import BeautifulSoup
 import requests
 import json
 
+# Send GET resquest, extract HTML content from the page, and parse the HTML content using BeautifulSoup
 response = requests.get(url="https://www.empireonline.com/movies/features/best-movies-2/")
 empire_web_page = response.text
 soup = BeautifulSoup(empire_web_page, "html.parser")
 
+# Find all <h2> tags that likely contain the movie titles and delete the first element ("<h2>") so that it isn't a part of the list
 movie_titles = soup.find_all(name="h2")
 del movie_titles[0]
 
+# Initialize an empty list to store cleaned movie titles
 movie_list = []
 
+# Pull text from each <h2> tag and append it to the movie list
 for name in movie_titles:
     text = name.getText()
     movie_list.append(text)
 
+# Organize the list in ascending order (from 1-100)
 movie_list.reverse()
 
-
+# Create the movie list in a JSON file
 with open("top_100_movies.json", mode="w", encoding="utf-8") as file:
     json.dump(movie_list, file, indent=4, ensure_ascii=False)
