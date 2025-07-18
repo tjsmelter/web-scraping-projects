@@ -4,4 +4,4 @@ This project utlizes the BeautifulSoup and requests libraries in order to scrape
 
 
 
-![image]<img width="526" height="379" alt="image" src="https://github.com/user-attachments/assets/fcfd6486-85f1-429f-90ba-d5d1fcfacce7" />
+<img width="526" height="379" alt="image" src="https://github.com/user-attachments/assets/fcfd6486-85f1-429f-90ba-d5d1fcfacce7" />
