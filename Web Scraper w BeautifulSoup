@@ -14,10 +14,11 @@ del movie_titles[0]
 # Initialize an empty list to store cleaned movie titles
 movie_list = []
 
-# Pull text from each <h2> tag and append it to the movie list
+# Pull text from each <h2> tag, ensure that only includes text lines that start with digits (e.g. "format 1)"), and append it to the movie list
 for name in movie_titles:
     text = name.getText()
-    movie_list.append(text)
+    if text.strip()[0].isdigit() and ")" in text.split()[0]:
+        movie_list.append(text)
 
 # Organize the list in ascending order (from 1-100)
 movie_list.reverse()
