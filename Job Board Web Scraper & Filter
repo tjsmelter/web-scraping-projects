@@ -1,3 +1,4 @@
+# This project was built in conjunction with the online resource freeCodeCamp.org
 import csv
 from bs4 import BeautifulSoup
 import requests
