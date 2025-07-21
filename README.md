@@ -1,6 +1,6 @@
 # Web Scraper
 
-This project utlizes the BeautifulSoup and requests libraries to scrape a page from empireoneline.com and extract an organized/ascending (1-100) JSON file list of the top 100 rated movies.
+This project utlizes the BeautifulSoup and requests libraries to scrape HTML data from a page from empireoneline.com and extract an organized/ascending (1-100) JSON file list of the top 100 rated movies.
 
 
 
