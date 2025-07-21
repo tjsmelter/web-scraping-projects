@@ -13,7 +13,7 @@ print("z =", z)
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36'
-} # Defines a dictionary of HTTP headers, specifically a User-Agent, to mimic a web browser. This helps avoid being blocked by websites
+} # Defines a dictionary of HTTP headers to mimic a web browser. This helps avoid being blocked by websites.
 
 def find_jobs():
     # Sends an HTTP Get request to the specified URL (TimesJobs search results for jobs that are relevant to the keyword "python")
