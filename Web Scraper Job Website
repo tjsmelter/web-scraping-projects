@@ -1,0 +1,70 @@
+import csv
+from bs4 import BeautifulSoup
+import requests
+import time
+
+print('List three skills that you are not familiar with')
+# User will enter three skills, script will read the input and split into three variables
+x,y,z = input('>').split()
+print("x =", x)
+print("y =", y)
+print("z =", z)
+
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36'
+} # Defines a dictionary of HTTP headers, specifically a User-Agent, to mimic a web browser. This helps avoid being blocked by websites
+
+def find_jobs():
+    # Sends an HTTP Get request to the specified URL (TimesJobs search results for jobs that are relevant to the keyword "python")
+    # Uses the defined headers to retrieve the HTML content as text
+    html_text = requests.get(
+        'https://m.timesjobs.com/mobile/jobs-search-result.html?txtKeywords=python&cboWorkExp1=-1&txtLocation=',
+        headers=headers
+        ).text
+
+    # Parses the HTML text using BeautifulSoup and the lxml parser
+    soup = BeautifulSoup(html_text,'lxml')
+
+    # Finds all 'div' HTML tags that have the class 'srp-listing clearfix'
+    # Each 'div' should represent an individual job listing
+    jobs = soup.find_all('div', class_='srp-listing clearfix')
+
+    # Open the CSV file 'jobs.csv' in append mode ('a')
+    # newline='' prevents extra bland rows in CSV
+    # '
+    with open('jobs.csv', 'a', newline='', encoding='utf-8') as f:
+        writer = csv.writer(f) # Creates a CSV writer object that can write data to the opened file
+
+        try:
+            # This checks if the file is empty (f.tell() returns 0 for an empty file)
+            # If empty, writes the header row into the CSV file.
+            if f.tell() == 0: # Check if file is empty
+                writer.writerow(['Company Name', 'Required Skills', 'Published Date', 'More Info'])
+        except Exception:
+            pass
+
+        # Iterates through each job listing found with BeautifulSoup
+        for index, job in enumerate(jobs):
+            # Pulls the company name, removes spaces, and stores it
+            company_name = job.find('span',class_='srp-comp-name').text.replace(' ','')
+            # Pulls the required skills, strips leading/trailing whitespace, and replaces internal spaces with commas
+            skills = job.find('div', class_='srp-keyskills').text.strip().replace(' ',',')
+            # Pulls job posting date
+            published_date = job.find('span', class_ = 'posting-time').text
+            # Finds the anchor tag that has the URL data
+            more_info_tag = job.find('a', class_=['srp-apply-new', 'ui-link'])
+            more_info = more_info_tag['href'] if more_info_tag else 'N/A' # Handle case where link might be missing
+
+            # Checks if none of the three user-entered skills are present
+            if all(skill.lower() not in skills.lower() for skill in [x,y,z]):
+                # If the job does not require the specified unfamiliar skills, write the details of the job to a row in the CSV file
+                writer.writerow([company_name, skills, published_date, more_info])
+                print(f'Job saved to CSV: {company_name}')
+
+if __name__ == '__main__':
+    # This guarantees that the code inside only runs when the script is executed directly (not imported as a module)
+    while True:
+        find_jobs()
+        time_wait = 10
+        print(f"Waiting {time_wait} minutes...")
+        time.sleep(time_wait *60)
