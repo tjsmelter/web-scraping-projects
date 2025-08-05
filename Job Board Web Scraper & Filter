@@ -32,7 +32,6 @@ def find_jobs():
 
     # Open the CSV file 'jobs.csv' in append mode ('a')
     # newline='' prevents extra bland rows in CSV
-    # '
     with open('jobs.csv', 'a', newline='', encoding='utf-8') as f:
         writer = csv.writer(f) # Creates a CSV writer object that can write data to the opened file
 
